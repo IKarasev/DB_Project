@@ -48,7 +48,8 @@ CREATE TABLE employee
  FOREIGN KEY (Emp_Num) REFERENCES employee (Emp_Num),
  CONSTRAINT employee_Dept_Code_FK 
  FOREIGN KEY (Dept_Code) REFERENCES department (Dept_Code),
- CONSTRAINT employee_DOB_CK CHECK((SYSDATE - DOB)/365 >= 17)
+ CONSTRAINT employee_DOB_CK
+ CHECK(MONTHS_BETWEEN(SYSDATE,DOB) >= 204)
 );
  
 CREATE TABLE training
@@ -67,7 +68,7 @@ CREATE TABLE training
 );
 
 CREATE TABLE project
-(Project_Number	NUMBER(4) 
+(Project_Number		NUMBER(4), 
  Name			VARCHAR2(30) CONSTRAINT project_Name_NN NOT NULL,
  Start_Date		DATE DEFAULT SYSDATE CONSTRAINT project_Start_Date_NN NOT NULL,
  Total_Cost		NUMBER(6), 
@@ -79,7 +80,7 @@ CREATE TABLE project
  FOREIGN KEY (Dept_Code) REFERENCES Department (Dept_Code),
  CONSTRAINT project_client_FK 
  FOREIGN KEY (Client_ID) REFERENCES Employee (Client_ID),
- CONSTRAINT project_Total_Cost_CK  CHECK (Total_Cost >= 0)
+ CONSTRAINT project_Total_Cost_CK CHECK (Total_Cost >= 0)
 );
  
 CREATE TABLE assignment
@@ -92,7 +93,7 @@ CREATE TABLE assignment
  CONSTRAINT assignment_Assign_Num_PK 
  PRIMARY KEY (Assign_Num),
  CONSTRAINT assignment_project_FK 
- FOREIGN KEY (Proj_Number) REFERENCES Project (Project_Number),
+ FOREIGN KEY (Project_Number) REFERENCES Project (Project_Number),
  CONSTRAINT assignment_employee_FK 
  FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num),
  CONSTRAINT assignment_Date_Assigned_CK CHECK(Date_Assigned<Date_Ended),
