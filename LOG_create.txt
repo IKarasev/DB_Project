@@ -1,0 +1,154 @@
+SQL> DROP TABLE training PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE skill PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE assignment PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE project PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE client PURGE;
+
+Table dropped.
+
+SQL> ALTER TABLE department
+  2  DROP CONSTRAINT department_managerID_FK;
+
+Table altered.
+
+SQL> DROP TABLE employee PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE department PURGE;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE skill
+  2  (Code	     NUMBER(4),
+  3   Description    VARCHAR2(300),
+  4   CONSTRAINT skill_code_pk PRIMARY KEY (code));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE client
+  2  (Client_ID      NUMBER(4),
+  3   Street	     VARCHAR2(20),
+  4   City	     VARCHAR2(30),
+  5   State	     VARCHAR(3),
+  6   Zip_Code	     NUMBER(10),
+  7   Industry	     VARCHAR2(20),
+  8   Web_Address    VARCHAR(20),
+  9   Phone	     NUMBER(12) CONSTRAINT client_phone_NN NOT NULL,
+ 10   Contact_Name   VARCHAR2(60) CONSTRAINT client_contactName_NN NOT NULL,
+ 11   CONSTRAINT client_clientID_PK PRIMARY KEY (Client_ID),
+ 12   CONSTRAINT client_phone_UK UNIQUE (Phone));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE department
+  2  (Dept_Code      NUMBER(4),
+  3   Name	     VARCHAR2(30),
+  4   Location	     VARCHAR2(300) CONSTRAINT department_location_NN NOT NULL,
+  5   Phone	     NUMBER(12) CONSTRAINT department_phone_NN NOT NULL,
+  6   Manager_ID     NUMBER(4) CONSTRAINT department_managerID_NN NOT NULL,
+  7   CONSTRAINT department_deptCode_PK
+  8   PRIMARY KEY (Dept_Code)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE employee
+  2  (Emp_Num	     NUMBER(4),
+  3   Emp_Last	     VARCHAR2(30) CONSTRAINT employee_empLast_NN NOT NULL,
+  4   Emp_First      VARCHAR(30) CONSTRAINT employee_empFirst_NN NOT NULL,
+  5   DOB	     DATE CONSTRAINT employee_DOB_NN NOT NULL,
+  6   Hire_Date      DATE DEFAULT SYSDATE CONSTRAINT employeet_hireDate_NN NOT NULL,
+  7   Super_ID	     NUMBER(4),
+  8   Dept_Code      NUMBER(4) CONSTRAINT employee_deptCode_NN NOT NULL,
+  9   CONSTRAINT employee_empNum_PK
+ 10   PRIMARY KEY (Emp_Num),
+ 11   CONSTRAINT employee_superID_FK
+ 12   FOREIGN KEY (Emp_Num) REFERENCES employee (Emp_Num),
+ 13   CONSTRAINT employee_Dept_Code_FK
+ 14   FOREIGN KEY (Dept_Code) REFERENCES department (Dept_Code),
+ 15   CONSTRAINT employee_DOB_CK
+ 16   CHECK(MONTHS_BETWEEN(DOB, Hire_Date) >= 204)
+ 17  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE training
+  2  (Train_Num      NUMBER(4),
+  3   Code	     NUMBER(4),
+  4   Emp_Num	     NUMBER(4),
+  5   Date_Acquired  DATE CONSTRAINT training_Date_NN NOT NULL,
+  6   Name	     VARCHAR2(30) CONSTRAINT training_Name_NN NOT NULL,
+  7   Comments	     VARCHAR2(300),
+  8   CONSTRAINT training_Train_Num_PK
+  9   PRIMARY KEY (Train_Num),
+ 10   CONSTRAINT training_skill_FK
+ 11   FOREIGN KEY (Code) REFERENCES skill (Code),
+ 12   CONSTRAINT training_employee_FK
+ 13   FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num)
+ 14  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE project
+  2  (Project_Number	     NUMBER(4),
+  3   Name		     VARCHAR2(30) CONSTRAINT project_Name_NN NOT NULL,
+  4   Start_Date	     DATE DEFAULT SYSDATE CONSTRAINT project_Start_Date_NN NOT NULL,
+  5   Total_Cost	     NUMBER(6),
+  6   Dept_Code 	     NUMBER(4),
+  7   Client_ID 	     NUMBER(4),
+  8   CONSTRAINT project_Project_Number_PK
+  9   PRIMARY KEY (Project_Number),
+ 10   CONSTRAINT project_department_FK
+ 11   FOREIGN KEY (Dept_Code) REFERENCES Department (Dept_Code),
+ 12   CONSTRAINT project_client_FK
+ 13   FOREIGN KEY (Client_ID) REFERENCES Client (Client_ID),
+ 14   CONSTRAINT project_Total_Cost_CK CHECK (Total_Cost >= 0)
+ 15  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE assignment
+  2  (Assign_Num	     NUMBER(4),
+  3   Proj_Number	     NUMBER(4),
+  4   Emp_Num		     NUMBER(4),
+  5   Date_Assigned	     DATE DEFAULT SYSDATE CONSTRAINT assignment_Date_Assigned_NN NOT NULL,
+  6   Date_Ended	     DATE CONSTRAINT assignment_Date_Ended_NN NOT NULL,
+  7   Hours_Used	     NUMBER(4),
+  8   CONSTRAINT assignment_Assign_Num_PK
+  9   PRIMARY KEY (Assign_Num),
+ 10   CONSTRAINT assignment_project_FK
+ 11   FOREIGN KEY (Proj_Number) REFERENCES Project (Project_Number),
+ 12   CONSTRAINT assignment_employee_FK
+ 13   FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num),
+ 14   CONSTRAINT assignment_Date_Assigned_CK CHECK(Date_Assigned<Date_Ended),
+ 15   CONSTRAINT assignment_Hours_Used_CK CHECK (Hours_Used >= 0)
+ 16  );
+
+Table created.
+
+SQL> 
+SQL> ALTER TABLE department
+  2  ADD CONSTRAINT department_managerID_FK
+  3  FOREIGN KEY (Manager_ID) REFERENCES employee (Emp_Num);
+
+Table altered.
