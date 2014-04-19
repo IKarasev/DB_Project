@@ -106,3 +106,26 @@ ALTER TABLE department
 ADD CONSTRAINT department_managerID_FK
 FOREIGN KEY (Manager_ID) REFERENCES employee (Emp_Num);
 
+ALTER TABLE department
+ADD CONSTRAINT department_phone_ck
+CHECK (REGEXP_LIKE(phone, '[0-9]{10}'));
+
+ALTER TABLE client
+ADD CONSTRAINT cient_phone_ck
+CHECK (REGEXP_LIKE(phone, '[0-9]{10}'));
+
+ALTER TABLE client
+ADD CONSTRAINT cient_state_ck
+CHECK (REGEXP_LIKE(state, '[A-Z]{2}'));
+
+ALTER TABLE client
+ADD CONSTRAINT cient_webaddress_ck
+CHECK (REGEXP_LIKE(web_address, '^www\.[a-z]{1,}\.[a-z]{2,3}'));
+
+
+
+
+
+
+
+
