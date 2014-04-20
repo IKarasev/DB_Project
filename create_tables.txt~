@@ -31,7 +31,7 @@ CREATE TABLE department
  Name		VARCHAR2(30),
  Location	VARCHAR2(300) CONSTRAINT department_location_NN NOT NULL,
  Phone		NUMBER(12) CONSTRAINT department_phone_NN NOT NULL,
- Manager_ID	NUMBER(4) CONSTRAINT department_managerID_NN NOT NULL,
+ Manager_ID	NUMBER(4),
  CONSTRAINT department_deptCode_PK 
  PRIMARY KEY (Dept_Code)
 );
@@ -43,7 +43,7 @@ CREATE TABLE employee
  DOB		DATE CONSTRAINT employee_DOB_NN NOT NULL,
  Hire_Date	DATE DEFAULT SYSDATE CONSTRAINT employeet_hireDate_NN NOT NULL,
  Super_ID	NUMBER(4),
- Dept_Code	NUMBER(4) CONSTRAINT employee_deptCode_NN NOT NULL,
+ Dept_Code	NUMBER(4),
  CONSTRAINT employee_empNum_PK 
  PRIMARY KEY (Emp_Num),
  CONSTRAINT employee_superID_FK 
@@ -116,7 +116,7 @@ CHECK (REGEXP_LIKE(phone, '[0-9]{10}'));
 
 ALTER TABLE client
 ADD CONSTRAINT cient_state_ck
-CHECK (REGEXP_LIKE(stat, '[A-Z]{2}'));
+CHECK (REGEXP_LIKE(state, '[A-Z]{2}'));
 
 ALTER TABLE client
 ADD CONSTRAINT cient_webaddress_ck

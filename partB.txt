@@ -1,0 +1,9 @@
+#5
+SELECT first_name||' '||last_name as EMPLOYEE, hire_date as HIRED, name as TRAINING, date_acquired as 'DATE',
+       (date_acquired-date_hired) as PERIOD
+FROM employee LEFT JOIN training USING (emp_num)
+WHERE EXTRACT(year FROM hire_date) = 13d
+ORDER BY GROUPING SETS((first_name,last_name,hire_date),());
+
+#6
+

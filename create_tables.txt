@@ -31,7 +31,7 @@ CREATE TABLE department
  Name		VARCHAR2(30),
  Location	VARCHAR2(300) CONSTRAINT department_location_NN NOT NULL,
  Phone		NUMBER(12) CONSTRAINT department_phone_NN NOT NULL,
- Manager_ID	NUMBER(4) CONSTRAINT department_managerID_NN NOT NULL,
+ Manager_ID	NUMBER(4),
  CONSTRAINT department_deptCode_PK 
  PRIMARY KEY (Dept_Code)
 );
