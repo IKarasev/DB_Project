@@ -1,0 +1,16 @@
+SELECT *
+FROM (
+ SELECT department.name AS "DEPARTMENT", proj_number AS ID, project.name AS "PROJECT",
+        total_cost AS "COST",
+        count(DISTINCT emp_num) AS "EMPLOYEES#",
+        (MAX(date_ended)-start_date) as "DURATION"
+ FROM project JOIN department USING(dept_code)
+      LEFT JOIN assigment USING(proj_number)
+ GROUP BY (proj_number, name, total_cost)
+ ORDER BY total_cost
+)
+WHERE rownum < 11;
+
+
+
+

@@ -43,7 +43,7 @@ CREATE TABLE employee
  DOB		DATE CONSTRAINT employee_DOB_NN NOT NULL,
  Hire_Date	DATE DEFAULT SYSDATE CONSTRAINT employeet_hireDate_NN NOT NULL,
  Super_ID	NUMBER(4),
- Dept_Code	NUMBER(4),
+ Dept_Code	NUMBER(4) CONSTRAINT employee_deptCode_NN NOT NULL,
  CONSTRAINT employee_empNum_PK 
  PRIMARY KEY (Emp_Num),
  CONSTRAINT employee_superID_FK 
@@ -70,14 +70,14 @@ CREATE TABLE training
 );
 
 CREATE TABLE project
-(Project_Number		NUMBER(4), 
+(Proj_Number		NUMBER(4), 
  Name			VARCHAR2(30) CONSTRAINT project_Name_NN NOT NULL,
  Start_Date		DATE DEFAULT SYSDATE CONSTRAINT project_Start_Date_NN NOT NULL,
  Total_Cost		NUMBER(6), 
  Dept_Code		NUMBER(4),
  Client_ID		NUMBER(4),
- CONSTRAINT project_Project_Number_PK 
- PRIMARY KEY (Project_Number),
+ CONSTRAINT project_Proj_Number_PK 
+ PRIMARY KEY (Proj_Number),
  CONSTRAINT project_department_FK 
  FOREIGN KEY (Dept_Code) REFERENCES Department (Dept_Code),
  CONSTRAINT project_client_FK 

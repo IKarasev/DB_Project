@@ -70,14 +70,14 @@ CREATE TABLE training
 );
 
 CREATE TABLE project
-(Project_Number		NUMBER(4), 
+(Proj_Number		NUMBER(4), 
  Name			VARCHAR2(30) CONSTRAINT project_Name_NN NOT NULL,
  Start_Date		DATE DEFAULT SYSDATE CONSTRAINT project_Start_Date_NN NOT NULL,
  Total_Cost		NUMBER(6), 
  Dept_Code		NUMBER(4),
  Client_ID		NUMBER(4),
- CONSTRAINT project_Project_Number_PK 
- PRIMARY KEY (Project_Number),
+ CONSTRAINT project_Proj_Number_PK 
+ PRIMARY KEY (Proj_Number),
  CONSTRAINT project_department_FK 
  FOREIGN KEY (Dept_Code) REFERENCES Department (Dept_Code),
  CONSTRAINT project_client_FK 
@@ -95,7 +95,7 @@ CREATE TABLE assignment
  CONSTRAINT assignment_Assign_Num_PK 
  PRIMARY KEY (Assign_Num),
  CONSTRAINT assignment_project_FK 
- FOREIGN KEY (Proj_Number) REFERENCES Project (Project_Number),
+ FOREIGN KEY (Proj_Number) REFERENCES Project (Proj_Number),
  CONSTRAINT assignment_employee_FK 
  FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num),
  CONSTRAINT assignment_Date_Assigned_CK CHECK(Date_Assigned<Date_Ended),
