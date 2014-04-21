@@ -7,3 +7,55 @@ ORDER BY GROUPING SETS((first_name,last_name,hire_date),());
 
 #6
 
+#7
+SELECT to_char('First Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
+       count(DISTINCET emp_num) as 'EMPLOYEE#",
+       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+FROM project JOIN assignment USING (proj_number)
+     JOIN employee USING (emp_num)
+WHERE (start_date >= TO_DATE('01-01-2013','DD-MM-YYYY'))
+      AND (start_date < TO_DATE('01-04-2013','DD-MM-YYYY'))
+GROUP_BY to_char('First Quater')
+UNION
+SELECT to_char('Second Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
+       count(DISTINCET emp_num) as 'EMPLOYEE#",
+       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+FROM project JOIN assignment USING (proj_number)
+     JOIN employee USING (emp_num)
+WHERE (start_date >= TO_DATE('01-04-2013','DD-MM-YYYY'))
+      AND (start_date < TO_DATE('01-07-2013','DD-MM-YYYY'))
+GROUP_BY to_char('Scond  Quater')
+UNION
+SELECT to_char('Third Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
+       count(DISTINCET emp_num) as 'EMPLOYEE#",
+       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+FROM project JOIN assignment USING (proj_number)
+     JOIN employee USING (emp_num)
+WHERE (start_date >= TO_DATE('01-07-2013','DD-MM-YYYY'))
+      AND (start_date < TO_DATE('01-10-2013','DD-MM-YYYY'))
+GROUP_BY to_char('Third  Quater') 
+UNION
+SELECT to_char('Fouth Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
+       count(DISTINCET emp_num) as 'EMPLOYEE#",
+       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+FROM project JOIN assignment USING (proj_number)
+     JOIN employee USING (emp_num)
+WHERE (start_date >= TO_DATE('01-10-2013','DD-MM-YYYY'))
+      AND (start_date < TO_DATE('01-01-2014','DD-MM-YYYY'))
+GROUP_BY to_char('Fouth  Quater');
+
+#8
+
+#9
+SELECT name as "DEPART.", description as "SKILL", count(DISTINCT train_num),
+       DENSE RANK() OVER (ORDER BY count(DISTINCT train_num) DESC NULLS LAST) AS "RANK"
+FROM department LEFT JOIN employee USING(dept_code)
+     LEFT JOIN training USING(emp_num)
+     JOIN skill USING(code)
+WHERE date_aquired < SYSDATE
+GOROUP BY (name,description);
+
+
+
+
+
