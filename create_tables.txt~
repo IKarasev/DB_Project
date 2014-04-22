@@ -14,13 +14,15 @@ CREATE TABLE skill
  CONSTRAINT skill_code_pk PRIMARY KEY (code));
  
 CREATE TABLE client
-(Client_ID	NUMBER(4),
+(
+ Client_ID	NUMBER(4),
+ Name 		VARCHAR2(25) CONSTRAINT client_name_NN NOT NULL,
  Street		VARCHAR2(20),
  City		VARCHAR2(30),
  State		VARCHAR(3),
  Zip_Code	NUMBER(10),
  Industry	VARCHAR2(20),
- Web_Address	VARCHAR(20),
+ Web_Address	VARCHAR(50),
  Phone		NUMBER(12) CONSTRAINT client_phone_NN NOT NULL,
  Contact_Name	VARCHAR2(60) CONSTRAINT client_contactName_NN NOT NULL,
  CONSTRAINT client_clientID_PK PRIMARY KEY (Client_ID),
@@ -47,11 +49,11 @@ CREATE TABLE employee
  CONSTRAINT employee_empNum_PK 
  PRIMARY KEY (Emp_Num),
  CONSTRAINT employee_superID_FK 
- FOREIGN KEY (Emp_Num) REFERENCES employee (Emp_Num),
+ FOREIGN KEY (Super_ID) REFERENCES employee (Emp_Num),
  CONSTRAINT employee_Dept_Code_FK 
  FOREIGN KEY (Dept_Code) REFERENCES department (Dept_Code),
  CONSTRAINT employee_DOB_CK
- CHECK(MONTHS_BETWEEN(DOB, Hire_Date) >= 204)
+ CHECK(MONTHS_BETWEEN(Hire_Date,DOB) >= 204)
 );
  
 CREATE TABLE training
@@ -71,7 +73,7 @@ CREATE TABLE training
 
 CREATE TABLE project
 (Proj_Number		NUMBER(4), 
- Name			VARCHAR2(30) CONSTRAINT project_Name_NN NOT NULL,
+ Name			VARCHAR2(60) CONSTRAINT project_Name_NN NOT NULL,
  Start_Date		DATE DEFAULT SYSDATE CONSTRAINT project_Start_Date_NN NOT NULL,
  Total_Cost		NUMBER(6), 
  Dept_Code		NUMBER(4),
@@ -95,7 +97,7 @@ CREATE TABLE assignment
  CONSTRAINT assignment_Assign_Num_PK 
  PRIMARY KEY (Assign_Num),
  CONSTRAINT assignment_project_FK 
- FOREIGN KEY (Proj_Number) REFERENCES Project (Project_Number),
+ FOREIGN KEY (Proj_Number) REFERENCES Project (Proj_Number),
  CONSTRAINT assignment_employee_FK 
  FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num),
  CONSTRAINT assignment_Date_Assigned_CK CHECK(Date_Assigned<Date_Ended),
@@ -105,22 +107,6 @@ CREATE TABLE assignment
 ALTER TABLE department
 ADD CONSTRAINT department_managerID_FK
 FOREIGN KEY (Manager_ID) REFERENCES employee (Emp_Num);
-
-ALTER TABLE department
-ADD CONSTRAINT department_phone_ck
-CHECK (REGEXP_LIKE(phone, '[0-9]{10}'));
-
-ALTER TABLE client
-ADD CONSTRAINT cient_phone_ck
-CHECK (REGEXP_LIKE(phone, '[0-9]{10}'));
-
-ALTER TABLE client
-ADD CONSTRAINT cient_state_ck
-CHECK (REGEXP_LIKE(state, '[A-Z]{2}'));
-
-ALTER TABLE client
-ADD CONSTRAINT cient_webaddress_ck
-CHECK (REGEXP_LIKE(web_address, '^www\.[a-z]{1,}\.[a-z]{2,3}'));
 
 
 
