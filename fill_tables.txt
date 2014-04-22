@@ -5,12 +5,12 @@ INSERT INTO skill VALUES(4,'Communication');
 INSERT INTO skill VALUES(5,'Management');
 INSERT INTO skill VALUES(6,'Data Mining');
 
-INSERT INTO client VALUES(801,'COLES','King Williams','Adelaide','SA',5000,'RETAIL','https://www.anz.com', 0420123456, 'Tim');
-INSERT INTO client VALUES(802,'Ernst Young','King Williams','Adelaide','SA',5000,'AUDIT','http://www.Ernst and young/au/en', 0416384579, 'Ben');
-INSERT INTO client VALUES(803,'GE','George','Sydney','NWS',2000,'CONSULTING','http://www.GE.com/view/en_AU/au/index.htm', 0422113456, 'Samuel');
-INSERT INTO client VALUES(804,'City Bank','Victoria','Melbourne','VIC',3000,'BANKING','https://www.citybank.com/au/en', 0418123456, 'Brown');
-INSERT INTO client VALUES(805,'Oracle','King Williams','Canberra','NSW',1000,'INFO TECHNOLOGY','http://www.oracle.com/au/en', 0417384579, 'Tonny');
-INSERT INTO client VALUES(806,'IBIS','Queen','Sydney','NWS',2000,'INFO TECHNOLOGY','http://www.ibis.com/au/en/', 0451123456, 'Linda');
+INSERT INTO client VALUES(801,'COLES','King Williams','Adelaide','SA',5000,'RETAIL','www.anz.com', 0420123456, 'Tim');
+INSERT INTO client VALUES(802,'Ernst Young','King Williams','Adelaide','SA',5000,'AUDIT','www.ernstandyoung.com', 0416384579, 'Ben');
+INSERT INTO client VALUES(803,'GE','George','Sydney','NWS',2000,'CONSULTING','www.ge.com', 0422113456, 'Samuel');
+INSERT INTO client VALUES(804,'City Bank','Victoria','Melbourne','VIC',3000,'BANKING','www.citybank.com', 0418123456, 'Brown');
+INSERT INTO client VALUES(805,'Oracle','King Williams','Canberra','NSW',1000,'INFO TECHNOLOGY','www.oracle.com', 0417384579, 'Tonny');
+INSERT INTO client VALUES(806,'IBIS','Queen','Sydney','NWS',2000,'INFO TECHNOLOGY','www.ibis.com', 0451123456, 'Linda');
 
 INSERT INTO department VALUES(101,'Financial conculting','King William Street',0412354879,null);
 INSERT INTO department VALUES(201,'Strategy Consulting','Waymouth Street',0412354879,null);
@@ -74,8 +74,6 @@ INSERT INTO training VALUES(18,2,371,'15-DEC-2013','Database Training','B+');
 INSERT INTO training VALUES(19,2,372,'15-MAY-2012','Database Training','A-');
 INSERT INTO training VALUES(39,2,373,'15-DEC-2012','Database Training','A');
 INSERT INTO training VALUES(40,2,374,'15-MAY-2011','Database Training','A');
-
-
 INSERT INTO training VALUES(20,3,169,'15-DEC-2013','Finance Accounting','A');
 INSERT INTO training VALUES(21,3,170,'15-MAY-2013','Finance Accounting','A');
 INSERT INTO training VALUES(22,3,171,'15-MAY-2013','Finance Accounting','A');
