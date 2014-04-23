@@ -101,7 +101,8 @@ CREATE TABLE assignment
  CONSTRAINT assignment_employee_FK 
  FOREIGN KEY (Emp_Num) REFERENCES Employee (Emp_Num),
  CONSTRAINT assignment_Date_Assigned_CK CHECK(Date_Assigned<Date_Ended),
- CONSTRAINT assignment_Hours_Used_CK CHECK (Hours_Used >= 0)
+ CONSTRAINT assignment_Hours_Used_CK CHECK (Hours_Used >= 0),
+ CONSRAINT assignment_DateAssignedEnded_CK CHECK months_between(Date_Ended, Date_Assigned)=1
 );	
 
 ALTER TABLE department

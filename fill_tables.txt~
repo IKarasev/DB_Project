@@ -5,12 +5,12 @@ INSERT INTO skill VALUES(4,'Communication');
 INSERT INTO skill VALUES(5,'Management');
 INSERT INTO skill VALUES(6,'Data Mining');
 
-INSERT INTO client VALUES(801,'COLES','King Williams','Adelaide','SA',5000,'RETAIL','https://www.anz.com', 0420123456, 'Tim');
-INSERT INTO client VALUES(802,'Ernst Young','King Williams','Adelaide','SA',5000,'AUDIT','http://www.Ernst and young/au/en', 0416384579, 'Ben');
-INSERT INTO client VALUES(803,'GE','George','Sydney','NWS',2000,'CONSULTING','http://www.GE.com/view/en_AU/au/index.htm', 0422113456, 'Samuel');
-INSERT INTO client VALUES(804,'City Bank','Victoria','Melbourne','VIC',3000,'BANKING','https://www.citybank.com/au/en', 0418123456, 'Brown');
-INSERT INTO client VALUES(805,'Oracle','King Williams','Canberra','NSW',1000,'INFO TECHNOLOGY','http://www.oracle.com/au/en', 0417384579, 'Tonny');
-INSERT INTO client VALUES(806,'IBIS','Queen','Sydney','NWS',2000,'INFO TECHNOLOGY','http://www.ibis.com/au/en/', 0451123456, 'Linda');
+INSERT INTO client VALUES(801,'COLES','King Williams','Adelaide','SA',5000,'RETAIL','www.anz.com', 0420123456, 'Tim');
+INSERT INTO client VALUES(802,'Ernst Young','King Williams','Adelaide','SA',5000,'AUDIT','www.ernstandyoung.com', 0416384579, 'Ben');
+INSERT INTO client VALUES(803,'GE','George','Sydney','NWS',2000,'CONSULTING','www.ge.com', 0422113456, 'Samuel');
+INSERT INTO client VALUES(804,'City Bank','Victoria','Melbourne','VIC',3000,'BANKING','www.citybank.com', 0418123456, 'Brown');
+INSERT INTO client VALUES(805,'Oracle','King Williams','Canberra','NSW',1000,'INFO TECHNOLOGY','www.oracle.com', 0417384579, 'Tonny');
+INSERT INTO client VALUES(806,'IBIS','Queen','Sydney','NWS',2000,'INFO TECHNOLOGY','www.ibis.com', 0451123456, 'Linda');
 
 INSERT INTO department VALUES(101,'Financial conculting','King William Street',0412354879,null);
 INSERT INTO department VALUES(201,'Strategy Consulting','Waymouth Street',0412354879,null);
@@ -130,12 +130,12 @@ INSERT INTO assignment VALUES(8027,1003,369,'01-APR-2014','01-MAY-2014',20);
 INSERT INTO assignment VALUES(8028,1003,370,'01-APR-2014','01-MAY-2014',30);
 
 INSERT INTO project VALUES(1004,'Energy Solution Consulting','01-AUG-2013',35000,301,803);
-INSERT INTO assignment VALUES(8029,1004,311,'01-AUG-2013','01-SEP-2014',30);
-INSERT INTO assignment VALUES(8030,1004,371,'01-AUG-2013','01-SEP-2014',50);
-INSERT INTO assignment VALUES(8031,1004,372,'01-AUG-2013','01-SEP-2014',50);
-INSERT INTO assignment VALUES(8032,1004,311,'01-SEP-2013','01-OCT-2014',35);
-INSERT INTO assignment VALUES(8033,1004,371,'01-SEP-2013','01-OCT-2014',45);
-INSERT INTO assignment VALUES(8034,1004,372,'01-SEP-2013','01-OCT-2014',55);
+INSERT INTO assignment VALUES(8029,1004,311,'01-AUG-2013','01-SEP-2013',30);
+INSERT INTO assignment VALUES(8030,1004,371,'01-AUG-2013','01-SEP-2013',50);
+INSERT INTO assignment VALUES(8031,1004,372,'01-AUG-2013','01-SEP-2013',50);
+INSERT INTO assignment VALUES(8032,1004,311,'01-OCT-2013','01-NOV-2013',35);
+INSERT INTO assignment VALUES(8033,1004,371,'01-OCT-2013','01-NOV-2013',45);
+INSERT INTO assignment VALUES(8034,1004,372,'01-NOV-2013','01-DEC-2013',55);
 
 INSERT INTO project VALUES(1005,'Electricity SolutionConsulting','01-MAR-2013',30000,301,803);
 INSERT INTO assignment VALUES(8035,1005,311,'15-MAR-2014','15-APR-2014',30);
@@ -182,8 +182,8 @@ INSERT INTO assignment VALUES(8063,1010,371,'01-AUG-2013','01-SEP-2013',60);
 INSERT INTO project VALUES(1011,'Hardware Future Plan','01-SEP-2013',15000,201,806);
 INSERT INTO assignment VALUES(8064,1011,372,'01-SEP-2013','01-OCT-2013',40);
 INSERT INTO assignment VALUES(8065,1011,374,'01-SEP-2013','01-OCT-2013',50);
-INSERT INTO assignment VALUES(8066,1011,372,'01-SEP-2013','01-NOV-2013',40);
-INSERT INTO assignment VALUES(8067,1011,374,'01-SEP-2013','01-NOV-2013',50);
+INSERT INTO assignment VALUES(8066,1011,372,'01-SEP-2013','01-OCT-2013',40);
+INSERT INTO assignment VALUES(8067,1011,374,'01-SEP-2013','01-OCT-2013',50);
 
 Commit;
 

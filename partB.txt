@@ -1,59 +1,69 @@
 #5
-SELECT first_name||' '||last_name as EMPLOYEE, hire_date as HIRED, name as TRAINING, date_acquired as 'DATE',
-       (date_acquired-date_hired) as PERIOD
+SELECT first_name||' '||last_name AS EMPLOYEE, hire_date AS HIRED, name AS 'TRAINING',
+       date_acquired AS 'DATE', (date_acquired-date_hired) as 'PERIOD'
 FROM employee LEFT JOIN training USING (emp_num)
 WHERE EXTRACT(year FROM hire_date) = 13d
 ORDER BY GROUPING SETS((first_name,last_name,hire_date),());
 
 #6
+SELECT proj_number AS "ID", name AS "PROJECT", start_date as "STARTED",
+       NVL2(total_cost,'completed','on-going')
+FROM project P1
+WHERE TO_NUMBER(0) <> (
+       SELECT COUNT(DISTINCT date_assigned)-MONTHS_BETWEEN(MAX(date_ended),MIN(date_assigned))
+       FROM assignment
+       WHERE proj_number = P1.proj_number
+);
 
 #7
-SELECT to_char('First Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
-       count(DISTINCET emp_num) as 'EMPLOYEE#",
-       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+SELECT * FROM (
+SELECT TO_CHAR('1 Quarter') AS "QUARTER", count(DISTINCT proj_number) AS "PROJECTS",
+       count(DISTINCT emp_num) AS "EMPLOYEES",
+       ROUND((SUM(hours_used)/count(DISTINCT proj_number)),2) AS "TIME AVERAGE"
 FROM project JOIN assignment USING (proj_number)
      JOIN employee USING (emp_num)
 WHERE (start_date >= TO_DATE('01-01-2013','DD-MM-YYYY'))
       AND (start_date < TO_DATE('01-04-2013','DD-MM-YYYY'))
-GROUP_BY to_char('First Quater')
+GROUP BY to_char('1 Quarter')
 UNION
-SELECT to_char('Second Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
-       count(DISTINCET emp_num) as 'EMPLOYEE#",
-       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+SELECT TO_CHAR('2 Quarter'), count(DISTINCT proj_number),
+       count(DISTINCT emp_num),
+       ROUND((SUM(hours_used)/count(DISTINCT proj_number)),2)
 FROM project JOIN assignment USING (proj_number)
      JOIN employee USING (emp_num)
 WHERE (start_date >= TO_DATE('01-04-2013','DD-MM-YYYY'))
       AND (start_date < TO_DATE('01-07-2013','DD-MM-YYYY'))
-GROUP_BY to_char('Scond  Quater')
+GROUP BY to_char('2  Quarter')
 UNION
-SELECT to_char('Third Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
-       count(DISTINCET emp_num) as 'EMPLOYEE#",
-       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+SELECT TO_CHAR('3 Quarter'), count(DISTINCT proj_number),
+       count(DISTINCT emp_num),
+       ROUND((SUM(hours_used)/count(DISTINCT proj_number)),2)
 FROM project JOIN assignment USING (proj_number)
      JOIN employee USING (emp_num)
 WHERE (start_date >= TO_DATE('01-07-2013','DD-MM-YYYY'))
       AND (start_date < TO_DATE('01-10-2013','DD-MM-YYYY'))
-GROUP_BY to_char('Third  Quater') 
+GROUP BY to_char('3  Quarter') 
 UNION
-SELECT to_char('Fouth Quater') as quater, count(DISTINCT proj_number) as 'PROJECTS#',
-       count(DISTINCET emp_num) as 'EMPLOYEE#",
-       (SUM(hours_used)/count(DISTINCT proj_number)) as 'TIME AVERAGE"
+SELECT TO_CHAR('4 Quarter'), count(DISTINCT proj_number),
+       count(DISTINCT emp_num),
+       ROUND((SUM(hours_used)/count(DISTINCT proj_number)),2)
 FROM project JOIN assignment USING (proj_number)
      JOIN employee USING (emp_num)
 WHERE (start_date >= TO_DATE('01-10-2013','DD-MM-YYYY'))
       AND (start_date < TO_DATE('01-01-2014','DD-MM-YYYY'))
-GROUP_BY to_char('Fouth  Quater');
-
+GROUP BY to_char('4 Quarter')
+)
+ORDER BY 1;
 #8
 
 #9
-SELECT name as "DEPART.", description as "SKILL", count(DISTINCT train_num),
-       DENSE RANK() OVER (ORDER BY count(DISTINCT train_num) DESC NULLS LAST) AS "RANK"
+SELECT department.name AS "DEPARTMENT", description AS "SKILL", count(DISTINCT train_num) AS "TRAININGS",
+       RANK() OVER (ORDER BY count(DISTINCT train_num) DESC NULLS LAST) AS "RANK"
 FROM department LEFT JOIN employee USING(dept_code)
      LEFT JOIN training USING(emp_num)
      JOIN skill USING(code)
-WHERE date_aquired < SYSDATE
-GOROUP BY (name,description);
+WHERE date_acquired < SYSDATE
+GROUP BY (department.name,description);
 
 
 
