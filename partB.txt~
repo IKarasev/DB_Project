@@ -6,28 +6,29 @@ WHERE EXTRACT(year FROM hire_date) = 13d
 ORDER BY GROUPING SETS((first_name,last_name,hire_date),());
 
 #6
+ASSUMPTIONS:
+	* Completed projects - those which has total cost.
+	* Discontinued - those, where no employee was working on for more than a month.
+	
 SELECT proj_number AS "ID", name AS "PROJECT", start_date as "STARTED",
-       NVL2(total_cost,'completed','on-going')
+       NVL2(total_cost,'completed','on-going') as "STATUS"
 FROM project P1
 WHERE TO_NUMBER(0) <> (
        SELECT COUNT(DISTINCT date_assigned)-MONTHS_BETWEEN(MAX(date_ended),MIN(date_assigned))
        FROM assignment
-       WHERE proj_number = P1.proj_number
-);
-
-SELECT DISTINCT A1.assign_num, A2.assign_num
-FROM assignment A1 JOIN assignment A2 ON (A1.proj_number = A2.proj_number)
-WHERE (A1.date_ended < A2.date_assigned)
-      AND (A1.date_assigned < A2.date_assigned);
-
-SELECT proj_number FROM assignment
-WHERE 
-
-
-SELECT COUNT(DISTINCT date_assigned)-MONTHS_BETWEEN(MAX(date_ended),MIN(date_assigned)) FROM assignment
-WHERE proj_number = 1009;
-
-
+       WHERE proj_number = P1.proj_number)
+      AND total_cost IS NOT NULL
+UNION
+SELECT proj_number AS "ID", name AS "PROJECT", start_date as "STARTED",
+       NVL2(total_cost,'completed','on-going') as "STATUS"
+FROM project P1
+WHERE (TO_NUMBER(0) <> (
+       SELECT COUNT(DISTINCT date_assigned)-MONTHS_BETWEEN(MAX(date_ended),MIN(date_assigned))
+       FROM assignment
+       WHERE proj_number = P1.proj_number)
+      OR TO_NUMBER(30) < (SELECT SYSDATE-MAX(date_assigned) FROM assignment
+                          WHERE proj_number = P1.proj_number)
+      ) AND total_cost IS NULL;
 
 #7
 SELECT * FROM (
@@ -68,8 +69,44 @@ WHERE (start_date >= TO_DATE('01-10-2013','DD-MM-YYYY'))
 GROUP BY to_char('4 Quarter')
 )
 ORDER BY 1;
-#8
 
+#8
+SELECT EMP.emp_num AS "ID", EMP.emp_first||' '||EMP.emp_last AS "EMPLOYEE",
+       NVL(SUM(DECODE(TR.code,1,1)),0) AS "SKILL|JAVA",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 1) AS "DATE",
+       NVL(SUM(DECODE(TR.code,2,1)),0) AS "DB Mngmnt",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 2) AS "DATE",
+       NVL(SUM(DECODE(TR.code,3,1)),0) AS "Accounting",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 3) AS "DATE",
+       NVL(SUM(DECODE(TR.code,4,1)),0) AS "Commun.",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 4) AS "DATE",
+       NVL(SUM(DECODE(TR.code,5,1)),0) AS "Mngmnt",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 5) AS "DATE",
+       NVL(SUM(DECODE(TR.code,6,1)),0) AS "Data Mining",
+       (SELECT MAX(date_acquired) FROM employee LEFT JOIN training USING (emp_num)
+        WHERE emp_num=EMP.emp_num AND code = 6) AS "DATE",
+       COUNT(DISTINCT TR.code) as "SKILLS"
+FROM employee EMP FULL JOIN training TR ON (EMP.emp_num=TR.emp_num)
+              JOIN skill SK ON (TR.code=SK.code)
+GROUP BY (EMP.emp_num,EMP.emp_first,EMP.emp_last);
+
+SELECT EMP.emp_num AS "ID", EMP.emp_first||' '||EMP.emp_last AS "EMPLOYEE",
+       NVL(SUM(DECODE(TR.code,1,1)),0) AS "JAVA",
+       NVL(SUM(DECODE(TR.code,2,1)),0) AS "DB Mngmnt",
+       NVL(SUM(DECODE(TR.code,3,1)),0) AS "Accounting",
+       NVL(SUM(DECODE(TR.code,4,1)),0) AS "Commun.",
+       NVL(SUM(DECODE(TR.code,5,1)),0) AS "Mngmnt",
+       NVL(SUM(DECODE(TR.code,6,1)),0) AS "Data Mining",
+       COUNT(DISTINCT TR.code) as "SKILLS"
+FROM employee EMP FULL JOIN training TR ON (EMP.emp_num=TR.emp_num)
+              JOIN skill SK ON (TR.code=SK.code)
+GROUP BY (EMP.emp_num,EMP.emp_first,EMP.emp_last);
+           
 #9
 SELECT department.name AS "DEPARTMENT", description AS "SKILL", count(DISTINCT train_num) AS "TRAININGS",
        RANK() OVER (ORDER BY count(DISTINCT train_num) DESC NULLS LAST) AS "RANK"
